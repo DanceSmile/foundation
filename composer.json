@@ -1,0 +1,11 @@
+{
+    "require": {
+        "pimple/pimple": "^3.2",
+        "tightenco/collect": "^5.6"
+    },
+    "autoload":{
+    	"psr-4" :{
+    		"Dancesmile\\Foundation\\" : "src"
+    	}
+    }
+}
