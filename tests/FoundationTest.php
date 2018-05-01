@@ -27,7 +27,20 @@ $config = $obj->config;
 // dd($obj->httpClient);
 
 
-$obj =  new  \stdclass();
+$cache = $obj->cache;
+
+$cache->save("name","cailei");
+
+
+
+
+try{
+	$a = 1/0/0;
+}catch( \Exception $e){
+
+ echo 999;
+}
+
 
 
 
