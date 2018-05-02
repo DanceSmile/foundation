@@ -1,0 +1,5 @@
+
+composer.phar
+omposer.lock
+/vendor/
+/.idea/
