@@ -6,6 +6,10 @@ use Pimple\Container;
 use stdclass;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\FilesystemCache;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\NullHandler;
+use Monolog\Handler\ErrorHandler;
 /**
  * Foundation
  */
@@ -38,6 +42,8 @@ abstract class Foundation extends Container
 
 		$this->registerProviders();
 
+		$this->initializeLogger();
+
 
 
 		
@@ -52,7 +58,30 @@ abstract class Foundation extends Container
                 return new FilesystemCache(sys_get_temp_dir());
             };
         }
-		
+
+	}
+
+	public function initializeLogger()
+	{
+		if (Log::hasLogger()) {
+            return;
+        }
+        // dd($this['config']->get('log.name', '12'));
+        $logger = new Logger($this['config']->get('log.name', 'foundation'));
+        if (!$this['config']->get('debug') || defined('PHPUNIT_RUNNING')) {
+            $logger->pushHandler(new NullHandler());
+        } elseif ($this['config']->get('log.handler') instanceof HandlerInterface) {
+            $logger->pushHandler($this['config']['log.handler']);
+        } elseif ($logFile = $this['config']->get('log.file')) {
+            $logger->pushHandler(new StreamHandler(
+                    $logFile,
+                    $this['config']->get('log.level', Logger::WARNING),
+                    true,
+                    $this['config']->get('log.permission', null))
+            );
+        }
+
+        Log::setLogger($logger);
 	}
 	public function __get($id)
 	{

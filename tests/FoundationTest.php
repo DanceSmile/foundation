@@ -1,6 +1,7 @@
 <?php
 
 namespace Dancesmile\Foundation;
+use stdclass;
 
 
 require_once  __DIR__."/../vendor/autoload.php";
@@ -16,30 +17,52 @@ class FoundationTest   extends Foundation
 }
 
 
+/**
+ * 		self::DEBUG     => 'DEBUG',
+        self::INFO      => 'INFO',
+        self::NOTICE    => 'NOTICE',
+        self::WARNING   => 'WARNING',
+        self::ERROR     => 'ERROR',
+        self::CRITICAL  => 'CRITICAL',
+        self::ALERT     => 'ALERT',
+        self::EMERGENCY => 'EMERGENCY',
+ * @var FoundationTest
+ */
 $obj = new FoundationTest([
-		"username" => "username",
-		"password"  => "password"
+		"param1" => "param1",
+		"debug" =>  true,
+		"log"  => [
+			"name" =>  "application name",
+			"file" =>  "./log.log",
+			"level" => "DEBUG",
+			"permission" => 0777
+		]
 ]); 
 
 
-$config = $obj->config;
-
-// dd($obj->httpClient);
-
-
-$cache = $obj->cache;
-
-$cache->save("name","cailei");
 
 
 
 
-try{
-	$a = 1/0/0;
-}catch( \Exception $e){
 
- echo 999;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
