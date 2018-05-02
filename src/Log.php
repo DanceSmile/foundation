@@ -51,7 +51,7 @@ class Log
      */
     public static function hasLogger()
     {
-        return self::$logger ?  self::$logger : false;
+        return self::$logger ?  true : false;
     }
     /**
      * Forward call.
