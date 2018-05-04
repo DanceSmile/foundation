@@ -4,6 +4,7 @@ use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
+use Monolog\Formatter\JsonFormatter;
 /**
  * Class Log.
  *

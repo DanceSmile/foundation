@@ -16,10 +16,4 @@ Abstract class AbstractApi{
 		return $this->http;
 	}
 
-
-
-	public function middware()
-	{
-	}
-
 }

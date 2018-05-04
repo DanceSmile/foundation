@@ -10,6 +10,15 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\ErrorHandler;
+use Dancesmile\Foundation\Support\Config;
+use Monolog\Handler\HandlerInterface;
+
+
+use Monolog\Formatter\JsonFormatter;
+use Monolog\Formatter\ChromePHPFormatter;
+use Monolog\Formatter\HtmlFormatter;
+
+
 /**
  * Foundation
  */
@@ -66,18 +75,28 @@ abstract class Foundation extends Container
 		if (Log::hasLogger()) {
             return;
         }
-        // dd($this['config']->get('log.name', '12'));
+        $ChromePHPFormatter = $this['config']->get('log.handler');
+        // dd($ChromePHPFormatter instanceof HandlerInterface);
         $logger = new Logger($this['config']->get('log.name', 'foundation'));
         if (!$this['config']->get('debug') || defined('PHPUNIT_RUNNING')) {
             $logger->pushHandler(new NullHandler());
         } elseif ($this['config']->get('log.handler') instanceof HandlerInterface) {
-            $logger->pushHandler($this['config']['log.handler']);
+            $logger->pushHandler($this['config']->get('log.handler'));
         } elseif ($logFile = $this['config']->get('log.file')) {
-            $logger->pushHandler(new StreamHandler(
+        	$logger->pushProcessor(function ($record)
+                    {
+                    	return $record;
+                   }
+            );
+            $logger->pushHandler(
+            	(
+            		new StreamHandler(
                     $logFile,
                     $this['config']->get('log.level', Logger::WARNING),
                     true,
-                    $this['config']->get('log.permission', null))
+                    $this['config']->get('log.permission', null)
+                    )
+                )
             );
         }
 
